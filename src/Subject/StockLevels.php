@@ -3,6 +3,7 @@
 namespace CommunityStore\BulkProductUpdating\Subject;
 
 use CommunityStore\BulkProductUpdating\Subject;
+use CommunityStore\BulkProductUpdating\UI;
 use Concrete\Core\Database\Query\LikeBuilder;
 use Concrete\Package\CommunityStore\Src\CommunityStore\Product\Product;
 use Concrete\Package\CommunityStore\Src\CommunityStore\Product\ProductVariation\ProductVariation;
@@ -39,27 +40,27 @@ final class StockLevels extends Subject
      *
      * @see \CommunityStore\BulkProductUpdating\Subject::createVueComponentHtml()
      */
-    public function createVueComponentHtml()
+    public function createVueComponentHtml(UI $ui)
     {
-        return <<<'EOT'
+        return <<<EOT
 <script type="text/x-template" id="cs-bpu-template-stock-levels">
     <div class="input-group input-group-sm" style="max-width: 400px">
         <input type="number" class="form-control" ref="input" v-bind:step="quantitySteps" min="0" v-bind:readonly="disabled" v-on:input="updateDisplayQuantity" v-on:keyup.enter.prevent="save" />
         <div class="input-group-btn" v-if="quantitySteps === Math.round(quantitySteps)">
-            <button class="btn btn-default" v-bind:disabled="disabled || displayQuantity === null" v-on:click.prevent="delta(-quantitySteps)">
+            <button class="btn {$ui->defaultButton}" v-bind:disabled="disabled || displayQuantity === null" v-on:click.prevent="delta(-quantitySteps)">
                 -{{ quantitySteps }}
             </button>
-            <button class="btn btn-default" v-bind:disabled="disabled || displayQuantity === null" v-on:click.prevent="delta(quantitySteps)">
+            <button class="btn {$ui->defaultButton}" v-bind:disabled="disabled || displayQuantity === null" v-on:click.prevent="delta(quantitySteps)">
                 +{{ quantitySteps }}
             </button>
         </div>
         <span class="input-group-addon" v-if="quantityLabel !== ''">{{ quantityLabel }}</span>
         <div class="input-group-btn" v-bind:style="{visibility: canSave ? 'visible' : 'hidden'}">
             <button class="btn btn-primary" v-bind:disabled="!canSave" v-on:click.prevent="save">
-                <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                <i class="{$ui->faSave}" aria-hidden="true"></i>
             </button>
             <button class="btn btn-danger" v-bind:disabled="!canSave" v-on:click.prevent="revert">
-                <i class="fa fa-times" aria-hidden="true"></i>
+                <i class="{$ui->faCancel}" aria-hidden="true"></i>
             </button>
         </div>
     </div>

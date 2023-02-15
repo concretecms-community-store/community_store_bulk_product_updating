@@ -51,7 +51,7 @@ abstract class Subject
      *
      * @return string
      */
-    abstract public function createVueComponentHtml();
+    abstract public function createVueComponentHtml(UI $ui);
 
     /**
      * Create the Javascript to be inserted into the webpage in order to create the Vue component.

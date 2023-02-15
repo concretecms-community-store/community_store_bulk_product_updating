@@ -3,6 +3,7 @@
 namespace Concrete\Package\CommunityStoreBulkProductUpdating\Controller\SinglePage\Dashboard\Store\Products;
 
 use CommunityStore\BulkProductUpdating\SubjectFactory;
+use CommunityStore\BulkProductUpdating\UI;
 use Concrete\Core\Error\UserMessageException;
 use Concrete\Core\Http\ResponseFactoryInterface;
 use Concrete\Core\Page\Controller\DashboardPageController;
@@ -25,6 +26,7 @@ class BulkUpdate extends DashboardPageController
 EOT
         );
         $this->set('subjects', $this->app->make(SubjectFactory::class)->getRegisteredSubjects());
+        $this->set('ui', $this->app->make(UI::class));
     }
 
     /**

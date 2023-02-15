@@ -8,6 +8,7 @@ use CommunityStore\BulkProductUpdating\Subject;
  * @var Concrete\Core\Validation\CSRF\Token $token
  * @var Concrete\Core\Page\View\PageView $view
  * @var CommunityStore\BulkProductUpdating\Subject $subjects
+ * @var CommunityStore\BulkProductUpdating\UI $ui
  */
 
 defined('C5_EXECUTE') or die('Access Denied.');
@@ -23,12 +24,12 @@ $serializedSubjects = array_map(
 );
 ?>
 <div class="ccm-dashboard-header-buttons">
-    <div class="form-inline" id="cs-bpu-header" v-cloak>
+    <div class="<?= $ui->majorVersion >= 9 ? 'input-group' : 'form-inline' ?>" id="cs-bpu-header" v-cloak>
         <select class="form-control" v-model="subject" v-if="SUBJECTS.length !== 1">
             <option v-for="subject in SUBJECTS" v-bind:key="subject.handle" v-bind:value="subject.handle">{{ subject.name }}</option>
         </select>
         <input type="search" ref="searchText" class="form-control" autocomplete="off" placeholder="<?= t('Search Product') ?>" v-on:keyup.enter.prevent="search" v-bind:readonly="disabled" v-model="searchText">
-        <button class="btn btn-info" v-bind:disabled="disabled" v-on:click.prevent="search"><i class="fa fa-search"></i></button>
+        <button class="btn btn-info" v-bind:disabled="disabled" v-on:click.prevent="search"><i class="<?= $ui->faSearch ?>"></i></button>
     </div>
 </div>
 <div id="cs-bpu-body" v-cloak>
@@ -73,7 +74,7 @@ $serializedSubjects = array_map(
 </div>
 <?php
 foreach ($subjects as $subject) {
-    echo $subject->createVueComponentHtml();
+    echo $subject->createVueComponentHtml($ui);
 }
 ?>
 
