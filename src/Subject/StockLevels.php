@@ -54,11 +54,11 @@ final class StockLevels extends Subject
             </button>
         </div>
         <span class="input-group-addon" v-if="quantityLabel !== ''">{{ quantityLabel }}</span>
-        <div class="input-group-btn">
-            <button class="btn btn-primary" v-bind:disabled="disabled || displayQuantity === null || displayQuantity === quantity" v-on:click.prevent="save">
+        <div class="input-group-btn" v-bind:style="{visibility: canSave ? 'visible' : 'hidden'}">
+            <button class="btn btn-primary" v-bind:disabled="!canSave" v-on:click.prevent="save">
                 <i class="fa fa-floppy-o" aria-hidden="true"></i>
             </button>
-            <button class="btn btn-danger" v-bind:disabled="disabled || displayQuantity === null || displayQuantity === quantity" v-on:click.prevent="revert">
+            <button class="btn btn-danger" v-bind:disabled="!canSave" v-on:click.prevent="revert">
                 <i class="fa fa-times" aria-hidden="true"></i>
             </button>
         </div>
@@ -80,6 +80,7 @@ Vue.component('csBpuComponentStockLevels', {
     template: '#cs-bpu-template-stock-levels',
     data() {
         return {
+            beforeUnloadHook: null,
             displayQuantity: null,
         };
     },
@@ -107,6 +108,9 @@ Vue.component('csBpuComponentStockLevels', {
             this.updateDisplayQuantity();
         });
     },
+    unmounted() {
+        this.updateBeforeUnloadHook(false);
+    },
     watch: {
         quantity() {
             this.$nextTick(() => {
@@ -115,12 +119,18 @@ Vue.component('csBpuComponentStockLevels', {
             });
         },
     },
+    computed: {
+        canSave() {
+            return !this.disabled && this.displayQuantity !== null && this.displayQuantity !== this.quantity;
+        }
+    },
     methods: {
         updateDisplayQuantity() {
             this.displayQuantity = parseFloat(this.$refs.input.value);
             if (isNaN(this.displayQuantity) || this.displayQuantity < 0) {
                 this.displayQuantity = null;
             }
+            this.updateBeforeUnloadHook();
         },
         delta(amount) {
             if (this.disabled || this.displayQuantity === null) {
@@ -142,6 +152,28 @@ Vue.component('csBpuComponentStockLevels', {
                 return;
             }
             this.$emit('change', {quantity: this.displayQuantity});
+        },
+        updateBeforeUnloadHook(force) {
+            let enableHook;
+            if (force === true || force === false) {
+                enableHook = force;
+            } else {
+                enableHook = this.displayQuantity !== null && this.displayQuantity !== this.quantity;
+            }
+            if (enableHook) {
+                if (this.beforeUnloadHook === null) {
+                    this.beforeUnloadHook = (e) => {
+                        e.preventDefault();
+                        return e.returnValue = 'confirm';
+                    };
+                    window.addEventListener('beforeunload', this.beforeUnloadHook, {capture: true});
+                }
+            } else {
+                if (this.beforeUnloadHook !== null) {
+                    window.removeEventListener('beforeunload', this.beforeUnloadHook, {capture: true});
+                    this.beforeUnloadHook = null;
+                }
+            }
         },
     },
 });
