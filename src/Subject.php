@@ -109,7 +109,7 @@ abstract class Subject
         switch ($matches['type']) {
             case 'p':
                 $product = $em->find(Product::class, (int) $matches['id']);
-                if ($$product === null) {
+                if ($product === null) {
                     throw new UserMessageException(t('Unable to find the requested product (has it been deleted?).'));
                 }
 
@@ -202,7 +202,7 @@ abstract class Subject
      *
      * @return array
      */
-    protected function serializeProductForSearch($subject, Product $product)
+    protected function serializeProductForSearch(Product $product)
     {
         return [
             'key' => "p:{$product->getID()}",
@@ -210,7 +210,7 @@ abstract class Subject
             'sku' => (string) $product->getSKU(),
             'quantitySteps' => $product->getQtySteps() ?: 1,
             'quantityLabel' => (string) $product->getQtyLabel(),
-            'subjectData' => $this->serializeProductData($subject, $product),
+            'subjectData' => $this->serializeProductData($product),
         ];
     }
 
