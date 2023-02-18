@@ -52,7 +52,7 @@ $serializedSubjects = array_map(
                 <td>
                     {{ record.name }}
                     <span v-if="record.labels">
-                        <span class="label label-primary" v-for="label in record.labels" v-bind:key="label">{{ label }}</span>
+                        <span class="<?= $ui->primaryBadge ?>" v-for="label in record.labels" v-bind:key="label">{{ label }}</span>
                     </span>
                 </td>
                 <td>{{ record.sku }}</td>

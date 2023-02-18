@@ -40,6 +40,12 @@ final class UI
      */
     public $defaultButton;
 
+    /**
+     * @var string
+     * @readonly
+     */
+    public $primaryBadge;
+
     public function __construct(Repository $config)
     {
         $version = $config->get('concrete.version');
@@ -62,6 +68,7 @@ final class UI
         $this->faSave = 'far fa-save';
         $this->faCancel = 'fas fa-times';
         $this->defaultButton = 'btn-secondary';
+        $this->primaryBadge = 'badge text-bg-primary';
     }
 
     /**
@@ -74,5 +81,6 @@ final class UI
         $this->faSave = 'fa fa-floppy-o';
         $this->faCancel = 'fa fa-times';
         $this->defaultButton = 'btn-default';
+        $this->primaryBadge = 'label label-primary';
     }
 }
