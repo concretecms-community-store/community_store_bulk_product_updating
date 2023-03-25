@@ -1,0 +1,92 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: community_store_bulk_product_updating 0.0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2023-03-25T09:47:39+01:00\n"
+"PO-Revision-Date: 2023-03-25T09:47:39+01:00\n"
+"Language: it_IT\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+
+#: packages/community_store_bulk_product_updating/install.xml:5
+msgid "Bulk Products Update"
+msgstr "Aggiornamento in serie dei prodotti"
+
+#: packages/community_store_bulk_product_updating/controller.php:48
+msgid "Community Store Bulk Product Updating"
+msgstr "Aggiornamento in serie dei prodotti di Community Store"
+
+#: packages/community_store_bulk_product_updating/controller.php:58
+msgid "Easily update details of Community Store products"
+msgstr "Aggiorna facilmente i dettagli dei prodotti del Community Store"
+
+#: packages/community_store_bulk_product_updating/controllers/single_page/dashboard/store/products/bulk_update.php:42
+#: packages/community_store_bulk_product_updating/controllers/single_page/dashboard/store/products/bulk_update.php:71
+#: packages/community_store_bulk_product_updating/controllers/single_page/dashboard/store/products/bulk_update.php:75
+#: packages/community_store_bulk_product_updating/controllers/single_page/dashboard/store/products/bulk_update.php:93
+msgid "Invalid parameters received."
+msgstr "Parametri non validi ricevuti."
+
+#: packages/community_store_bulk_product_updating/controllers/single_page/dashboard/store/products/bulk_update.php:47
+msgid "Please specify the search text."
+msgstr "Specifica il testo per la ricerca."
+
+#: packages/community_store_bulk_product_updating/controllers/single_page/dashboard/store/products/bulk_update.php:98
+msgid "The data stored in the database doesn't match the data you see in the page, maybe because a new order has been submitted."
+msgstr ""
+"I dati memorizzati nel database non corrispondono a quelli visualizzati nella "
+"pagina, forse perché è stato inoltrato un nuovo ordine."
+
+#: packages/community_store_bulk_product_updating/controllers/single_page/dashboard/store/products/bulk_update.php:100
+msgid "You should reload the page in order to see the up-to-date data."
+msgstr "Dovresti ricaricare la pagina per vedere i dati aggiornati."
+
+#: packages/community_store_bulk_product_updating/single_pages/dashboard/store/products/bulk-update.php:31
+msgid "Search Product"
+msgstr "Seleziona prodotto"
+
+#: packages/community_store_bulk_product_updating/single_pages/dashboard/store/products/bulk-update.php:40
+msgid "No products satisfy the search criteria."
+msgstr "Nessun prodotto soddisfa i criteri di ricerca."
+
+#: packages/community_store_bulk_product_updating/single_pages/dashboard/store/products/bulk-update.php:45
+msgid "Product"
+msgstr "Prodotto"
+
+#: packages/community_store_bulk_product_updating/single_pages/dashboard/store/products/bulk-update.php:46
+msgid "SKU"
+msgstr "SKU"
+
+#: packages/community_store_bulk_product_updating/single_pages/dashboard/store/products/bulk-update.php:184
+msgid "Unknown error"
+msgstr "Errore sconosciuto"
+
+#: packages/community_store_bulk_product_updating/single_pages/dashboard/store/products/bulk-update.php:194
+msgid "Enter the search text and click the Search button"
+msgstr "Immettere il testo di ricerca e fare clic sul pulsante Cerca"
+
+#: packages/community_store_bulk_product_updating/single_pages/dashboard/store/products/bulk-update.php:211
+msgid "Searching products..."
+msgstr "Ricerca dei prodotti in corso..."
+
+#: packages/community_store_bulk_product_updating/single_pages/dashboard/store/products/bulk-update.php:228
+#: packages/community_store_bulk_product_updating/single_pages/dashboard/store/products/bulk-update.php:266
+msgid "Wrong data returned from server"
+msgstr "Dati errati restituiti dal server"
+
+#: packages/community_store_bulk_product_updating/src/Subject/StockLevels.php:35
+msgid "Stock Levels"
+msgstr "Scorte a magazzino"
+
+#: packages/community_store_bulk_product_updating/src/Subject.php:113
+msgid "Unable to find the requested product (has it been deleted?)."
+msgstr "Impossibile trovare il prodotto richiesto (è stato eliminato?)."
+
+#: packages/community_store_bulk_product_updating/src/Subject.php:120
+msgid "Unable to find the requested product variation (has it been deleted?)."
+msgstr ""
+"Impossibile trovare la variazione del prodotto richiesta (è stata eliminata?)."
