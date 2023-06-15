@@ -2,7 +2,7 @@
 <concrete5-cif version="1.0">
 
     <singlepages>
-        <page package="community_store_bulk_product_updating" path="/dashboard/store/products/bulk-update" name="Bulk Products Update" description="">
+        <page package="community_store_bulk_product_updating" path="/dashboard/store/products/bulk-update" name="Bulk Update" description="">
         </page>
     </singlepages>
 
