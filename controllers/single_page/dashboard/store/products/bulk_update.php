@@ -66,7 +66,8 @@ EOT
         for (;;) {
             $qb = $this->createSearchQuery($searchText, $enabled, $nextPageAt);
             $qb = $subject->patchSearchQuery($qb);
-            $productIDs = array_map('intval', $qb->getQuery()->getSingleColumnResult());
+            $rows = $qb->getQuery()->getArrayResult();
+            $productIDs = array_map('intval', array_map('array_shift', $rows));
             if ($productIDs === []) {
                 $nextPageAt = null;
                 break;
