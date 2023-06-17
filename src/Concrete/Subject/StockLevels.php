@@ -1,15 +1,11 @@
 <?php
 
-namespace CommunityStore\BulkProductUpdating\Subject;
+namespace Concrete\Package\CommunityStoreBulkProductUpdating\Subject;
 
-use CommunityStore\BulkProductUpdating\Subject;
-use CommunityStore\BulkProductUpdating\UI;
-use Concrete\Core\Database\Query\LikeBuilder;
 use Concrete\Package\CommunityStore\Src\CommunityStore\Product\Product;
 use Concrete\Package\CommunityStore\Src\CommunityStore\Product\ProductVariation\ProductVariation;
-use Doctrine\DBAL\Types\Type;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Query\Expr;
+use Concrete\Package\CommunityStoreBulkProductUpdating\Subject;
+use Concrete\Package\CommunityStoreBulkProductUpdating\UI;
 
 defined('C5_EXECUTE') or die('Access Denied.');
 
@@ -18,7 +14,7 @@ final class StockLevels extends Subject
     /**
      * {@inheritdoc}
      *
-     * @see \CommunityStore\BulkProductUpdating\Subject::getHandle()
+     * @see \Concrete\Package\CommunityStoreBulkProductUpdating\Subject::getHandle()
      */
     public function getHandle()
     {
@@ -28,7 +24,7 @@ final class StockLevels extends Subject
     /**
      * {@inheritdoc}
      *
-     * @see \CommunityStore\BulkProductUpdating\Subject::getName()
+     * @see \Concrete\Package\CommunityStoreBulkProductUpdating\Subject::getName()
      */
     public function getName()
     {
@@ -38,7 +34,7 @@ final class StockLevels extends Subject
     /**
      * {@inheritdoc}
      *
-     * @see \CommunityStore\BulkProductUpdating\Subject::createVueComponentHtml()
+     * @see \Concrete\Package\CommunityStoreBulkProductUpdating\Subject::createVueComponentHtml()
      */
     public function createVueComponentHtml(UI $ui)
     {
@@ -72,7 +68,7 @@ EOT
     /**
      * {@inheritdoc}
      *
-     * @see \CommunityStore\BulkProductUpdating\Subject::createVueComponentJavascript()
+     * @see \Concrete\Package\CommunityStoreBulkProductUpdating\Subject::createVueComponentJavascript()
      */
     public function createVueComponentJavascript()
     {
@@ -186,7 +182,7 @@ EOT
     /**
      * {@inheritdoc}
      *
-     * @see \CommunityStore\BulkProductUpdating\Subject::insertVueComponentElement()
+     * @see \Concrete\Package\CommunityStoreBulkProductUpdating\Subject::insertVueComponentElement()
      */
     public function insertVueComponentElement()
     {
@@ -205,58 +201,7 @@ EOT
     /**
      * {@inheritdoc}
      *
-     * @see \CommunityStore\BulkProductUpdating\Subject::createSearchQuery()
-     */
-    public function createSearchQuery($searchText)
-    {
-        $likeBuilder = $this->app->make(LikeBuilder::class);
-        $em = $this->app->make(EntityManagerInterface::class);
-        $qb = $em->createQueryBuilder();
-        $expr = $qb->expr();
-        $qb
-            ->setParameter('true', true, Type::BOOLEAN)
-            ->setParameter('false', false, Type::BOOLEAN)
-            ->setParameter('now', date($em->getConnection()->getDatabasePlatform()->getDateTimeFormatString()))
-            ->select('p, po, pv, pvoi, pvoio')
-            ->from(Product::class, 'p')
-            ->leftJoin('p.options', 'po')
-            ->leftJoin('p.variations', 'pv')
-            ->leftJoin('pv.options', 'pvoi')
-            ->leftJoin('pvoi.option', 'pvoio')
-            ->leftJoin(
-                'p.variations',
-                'pvWhere',
-                Expr\Join::WITH,
-                'p.pVariations = :true AND (pvWhere.pvDisabled IS NULL OR pvWhere.pvDisabled = :false)'
-            )
-            ->andWhere('p.pActive = :true')
-            ->andWhere('p.pDateAvailableStart IS NULL OR p.pDateAvailableStart < :now')
-            ->andWhere('p.pDateAvailableEnd IS NULL OR p.pDateAvailableEnd > :now')
-            ->addOrderBy('p.pName')
-            ->addOrderBy('p.pSKU')
-        ;
-        $and = [];
-        foreach ($likeBuilder->splitKeywordsForLike($searchText) as $index => $paramValue) {
-            $paramName = "keyword{$index}";
-            $qb->setParameter($paramName, $paramValue, TYPE::STRING);
-            $and[] = $expr->orX(
-                $expr->like('p.pName', ":{$paramName}"),
-                $expr->like('p.pSKU', ":{$paramName}"),
-                $expr->like('p.pBarcode', ":{$paramName}"),
-                $expr->like('p.pDesc', ":{$paramName}"),
-                $expr->like('pvWhere.pvSKU', ":{$paramName}"),
-                $expr->like('pvWhere.pvBarcode', ":{$paramName}")
-            );
-        }
-        $qb->andWhere($expr->andX()->addMultiple($and));
-
-        return $qb->getQuery();
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see \CommunityStore\BulkProductUpdating\Subject::normalizeReceivedSubjectData()
+     * @see \Concrete\Package\CommunityStoreBulkProductUpdating\Subject::normalizeReceivedSubjectData()
      */
     public function normalizeReceivedSubjectData($item, array $rawData)
     {
@@ -272,18 +217,15 @@ EOT
     /**
      * {@inheritdoc}
      *
-     * @see \CommunityStore\BulkProductUpdating\Subject::shouldReturnProductForSearch()
+     * @see \Concrete\Package\CommunityStoreBulkProductUpdating\Subject::shouldReturnProductForSearch()
      */
     protected function shouldReturnProductForSearch(Product $product)
     {
-        if ($product->isUnlimited(true)) {
+        if ($product->hasVariations()) {
             return false;
         }
-        foreach ($product->getOptions() as $option) {
-            /** @var \Concrete\Package\CommunityStore\Src\CommunityStore\Product\ProductOption\ProductOption $option */
-            if ($option->getRequired() && $option->getIncludeVariations()) {
-                return false;
-            }
+        if ($product->isUnlimited(true)) {
+            return false;
         }
 
         return true;
@@ -292,17 +234,17 @@ EOT
     /**
      * {@inheritdoc}
      *
-     * @see \CommunityStore\BulkProductUpdating\Subject::shouldReturnProductVariationForSearch()
+     * @see \Concrete\Package\CommunityStoreBulkProductUpdating\Subject::shouldReturnProductVariationForSearch()
      */
     protected function shouldReturnProductVariationForSearch(ProductVariation $productVariation)
     {
-        return !$productVariation->getVariationDisabled() && !$productVariation->getVariationQtyUnlim();
+        return !$productVariation->getVariationQtyUnlim();
     }
 
     /**
      * {@inheritdoc}
      *
-     * @see \CommunityStore\BulkProductUpdating\Subject::serializeProductData()
+     * @see \Concrete\Package\CommunityStoreBulkProductUpdating\Subject::serializeProductData()
      */
     protected function serializeProductData(Product $product)
     {
@@ -314,7 +256,7 @@ EOT
     /**
      * {@inheritdoc}
      *
-     * @see \CommunityStore\BulkProductUpdating\Subject::serializeProductVariationData()
+     * @see \Concrete\Package\CommunityStoreBulkProductUpdating\Subject::serializeProductVariationData()
      */
     protected function serializeProductVariationData(ProductVariation $productVariation)
     {
@@ -326,7 +268,7 @@ EOT
     /**
      * {@inheritdoc}
      *
-     * @see \CommunityStore\BulkProductUpdating\Subject::updateProductData()
+     * @see \Concrete\Package\CommunityStoreBulkProductUpdating\Subject::updateProductData()
      */
     protected function updateProductData(Product $product, array $newData)
     {
@@ -336,7 +278,7 @@ EOT
     /**
      * {@inheritdoc}
      *
-     * @see \CommunityStore\BulkProductUpdating\Subject::updateProductVariationData()
+     * @see \Concrete\Package\CommunityStoreBulkProductUpdating\Subject::updateProductVariationData()
      */
     protected function updateProductVariationData(ProductVariation $productVariation, array $newData)
     {

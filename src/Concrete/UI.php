@@ -1,6 +1,6 @@
 <?php
 
-namespace CommunityStore\BulkProductUpdating;
+namespace Concrete\Package\CommunityStoreBulkProductUpdating;
 
 use Concrete\Core\Config\Repository\Repository;
 

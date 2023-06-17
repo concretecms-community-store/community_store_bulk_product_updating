@@ -1,6 +1,6 @@
 <?php
 
-namespace CommunityStore\BulkProductUpdating;
+namespace Concrete\Package\CommunityStoreBulkProductUpdating;
 
 use Concrete\Core\Application\Application;
 use Punic\Comparer;
@@ -15,7 +15,7 @@ class SubjectFactory
     protected $app;
 
     /**
-     * @var \CommunityStore\BulkProductUpdating\Subject[]
+     * @var \Concrete\Package\CommunityStoreBulkProductUpdating\Subject[]
      */
     private $subjects = [];
 
@@ -36,7 +36,7 @@ class SubjectFactory
     }
 
     /**
-     * @param \CommunityStore\BulkProductUpdating\Subject[] $subjects
+     * @param \Concrete\Package\CommunityStoreBulkProductUpdating\Subject[] $subjects
      *
      * @return $this
      */
@@ -64,7 +64,7 @@ class SubjectFactory
      *
      * @param string|mixed $handle
      *
-     * @return \CommunityStore\BulkProductUpdating\Subject|null
+     * @return \Concrete\Package\CommunityStoreBulkProductUpdating\Subject|null
      */
     public function getRegisteredSubject($handle)
     {
@@ -72,7 +72,7 @@ class SubjectFactory
     }
 
     /**
-     * @return \CommunityStore\BulkProductUpdating\Subject[]
+     * @return \Concrete\Package\CommunityStoreBulkProductUpdating\Subject[]
      */
     public function getRegisteredSubjects()
     {

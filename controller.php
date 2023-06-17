@@ -32,15 +32,6 @@ class Controller extends Package implements ProviderInterface
     /**
      * {@inheritdoc}
      *
-     * @see \Concrete\Core\Package\Package::$pkgAutoloaderRegistries
-     */
-    protected $pkgAutoloaderRegistries = [
-        'src' => 'CommunityStore\BulkProductUpdating',
-    ];
-
-    /**
-     * {@inheritdoc}
-     *
      * @see \Concrete\Core\Package\Package::getPackageName()
      */
     public function getPackageName()
