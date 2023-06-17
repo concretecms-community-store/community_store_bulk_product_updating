@@ -67,10 +67,13 @@ EOT
             $qb = $this->createSearchQuery($searchText, $enabled, $nextPageAt);
             $qb = $subject->patchSearchQuery($qb);
             $rows = $qb->getQuery()->getArrayResult();
-            $productIDs = array_map('intval', array_map('array_shift', $rows));
-            if ($productIDs === []) {
+            if ($rows === []) {
                 $nextPageAt = null;
                 break;
+            }
+            $productIDs = [];
+            foreach ($rows as $row) {
+                $productIDs[] = (int) array_shift($row);
             }
             $qb = $this->createResultsQuery($productIDs);
             $qb = $subject->patchResultsQuery($qb);
@@ -94,7 +97,7 @@ EOT
             $records,
             static function (array &$record) {
                 unset($record['_cursor']);
-            },
+            }
         );
 
         return $this->app->make(ResponseFactoryInterface::class)->json([
@@ -190,13 +193,11 @@ EOT
         }
         $qb
             ->from(Product::class, 'p')
-            ->select('DISTINCT p.pID')
+            ->select('DISTINCT p.pID, p.pName')
             ->leftJoin('p.options', 'po')
             ->leftJoin('p.variations', 'pv', Expr\Join::WITH, 'p.pVariations = 1' . $whereVariations)
             ->addOrderBy('p.pName')
             ->addOrderBy('p.pID')
-            ->addOrderBy('pv.pvSort')
-            ->addOrderBy('pv.pvID')
             ->setMaxResults($this->getPageSize() + 1)
         ;
         $searchChunks = $likeBuilder->splitKeywordsForLike($searchText);
@@ -223,7 +224,7 @@ EOT
                 ->andWhere(
                     $expr->orX(
                         'p.pName > :startingAtPName',
-                        'p.pName = :startingAtPName AND p.pID >= :startingAtPID',
+                        'p.pName = :startingAtPName AND p.pID >= :startingAtPID'
                     )
                 )
             ;
