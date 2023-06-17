@@ -1,0 +1,32 @@
+{
+  "name": "concretecms-community-store/community_store_bulk_product_updating",
+  "description": "Bulk Product Updating for ConcreteCMS Community Store",
+  "type": "concrete5-package",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Michele Locati",
+      "email": "michele@locati.it"
+    }
+  ],
+  "homepage": "https://github.com/concretecms-community-store/community_store_bulk_product_updating",
+  "support": {
+    "issues": "https://github.com/concrete5-community/acme/issues",
+    "source": "https://github.com/concrete5-community/acme"
+  },
+  "keywords": [
+    "concrete5",
+    "oncrete",
+    "store",
+    "bulk",
+    "products",
+    "update"
+  ],
+  "minimum-stability": "stable",
+  "config": {
+    "optimize-autoloader": true,
+    "preferred-install": "dist",
+    "sort-packages": true
+  },
+  "$schema": "https://raw.githubusercontent.com/composer/composer/main/res/composer-schema.json"
+}

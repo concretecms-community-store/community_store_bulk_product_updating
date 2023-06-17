@@ -1,4 +1,4 @@
-# Bulk Product Updating for ConcreeCMS Community Store
+# Bulk Product Updating for ConcreteCMS Community Store
 
 This package for ConcreteCMS adds a dashboard page (available at Dashboard > Store > Products > Bulk Update) that lets you perform bulk update operations.
 
