@@ -288,7 +288,7 @@ new Vue({
             };
             this.records.splice(0, this.records.length);
             this.pageIndex = 0;
-            this.fetchPage(0);
+            this.fetchNextPage();
         },
         gotoPage(pageIndex) {
             if (this.busy) {
@@ -302,9 +302,9 @@ new Vue({
                 this.pageIndex = pageIndex;
                 return;
             }
-            this.fetchPage(pageIndex);
+            this.fetchNextPage();
         },
-        fetchPage(pageIndex) {
+        fetchNextPage() {
             bridge.header.disabled = true;
             this.busy = true;
             $.ajax({
@@ -326,7 +326,7 @@ new Vue({
                     this.records.push(record);
                 });
                 this.criteria.nextPageAt = data.nextPageAt ?? '';
-                this.pageIndex = pageIndex;
+                this.pageIndex = Math.max(0, this.numLoadedPages - 1);
             })
             .fail((xhr, status, error) => {
                 ConcreteAlert.error({
