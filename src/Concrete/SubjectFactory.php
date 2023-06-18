@@ -31,7 +31,7 @@ class SubjectFactory
     public function registerDefaultSubjects()
     {
         return $this->registerSubjects([
-            $this->app->maKE(Subject\StockLevels::class),
+            $this->app->make(Subject\StockLevels::class),
         ]);
     }
 
