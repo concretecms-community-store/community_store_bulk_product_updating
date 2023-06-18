@@ -28,7 +28,7 @@ $serializedSubjects = array_map(
     <div id="cs-bpu-header" v-cloak>
         <div class="<?= $ui->majorVersion >= 9 ? 'input-group' : 'form-inline' ?>">
             <select class="form-control" v-model="subject" v-if="SUBJECTS.length !== 1">
-                <option v-for="subject in SUBJECTS" v-bind:key="subject.handle" v-bind:value="subject.handle">{{ subject.name }}</option>
+                <option v-for="subject in SUBJECTS" v-bind:key="subject.handle" v-bind:value="subject">{{ subject.name }}</option>
             </select>
             <input type="search" ref="searchText" class="form-control" autocomplete="off" placeholder="<?= t('Search Product') ?>" v-on:keyup.enter.prevent="search" v-bind:readonly="disabled" v-model="searchText">
             <button class="btn btn-info" v-bind:disabled="disabled" v-on:click.prevent="search"><i class="<?= $ui->faSearch ?>"></i></button>
