@@ -32,6 +32,8 @@ class SubjectFactory
     {
         return $this->registerSubjects([
             $this->app->make(Subject\StockLevels::class),
+            $this->app->make(Subject\ProductsEnabled::class),
+            $this->app->make(Subject\VariantsEnabled::class),
         ]);
     }
 

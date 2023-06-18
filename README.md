@@ -5,3 +5,5 @@ This package for ConcreteCMS adds a dashboard page (available at Dashboard > Sto
 It now supports these features:
 
 - Set the stock level for products and variants
+- Set the active/inactive flag of products
+- Set the disabled flag of product variations
