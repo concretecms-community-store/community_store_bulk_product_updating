@@ -88,7 +88,7 @@ class Cursor implements JsonSerializable
             return new static($this->pName, $this->pID + 1);
         }
 
-        return new static($this->pName, $this->pID, $this->pvSort, $this->pID + 1);
+        return new static($this->pName, $this->pID, $this->pvSort, $this->pvID + 1);
     }
 
     /**
